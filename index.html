@@ -3,70 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VITAL-SCHOOL: Реєстрація</title>
+    <title>VITAL-SCHOOL | Вхід</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="auth-container">
-        <!-- ЕТАП 1: Форма реєстрації -->
-        <div id="stage-1" class="auth-stage active">
-            <div class="auth-card">
-                <h1>🎓 VITAL-SCHOOL</h1>
-                <p class="subtitle">3-А Клас — Освітня Платформа</p>
-                
-                <form id="register-form">
-                    <div class="form-group">
-                        <label>Ім'я (ПІБ вчителя)</label>
-                        <input type="text" id="name" required placeholder="Наприклад: Івана Петренко">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Електронна пошта</label>
-                        <input type="email" id="email" required placeholder="your@email.com">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Пароль</label>
-                        <input type="password" id="password" required placeholder="Введіть надійний пароль">
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary btn-large">Зареєструватися</button>
-                </form>
-                
-                <div class="divider">або</div>
-                
-                <button class="btn btn-secondary btn-large btn-google">
-                    📧 Увійти через Google
-                </button>
-                <button class="btn btn-secondary btn-large btn-microsoft">
-                    🔷 Увійти через Microsoft
-                </button>
-            </div>
-        </div>
+<body class="bg-blue-600 flex items-center justify-center min-h-screen p-4">
 
-        <!-- ЕТАП 2: Підтвердження пошти -->
-        <div id="stage-2" class="auth-stage">
-            <div class="auth-card">
-                <div class="success-icon">✉️</div>
-                <h2>Лист надіслано!</h2>
-                <p>На вашу пошту <strong id="display-email"></strong> надіслано лист для підтвердження.</p>
-                <p class="help-text">Будь ласка, перевірте папку "Вхідне" та натисніть на посилання підтвердження.</p>
-                <button class="btn btn-primary btn-large" onclick="goToStage(3)">Я підтвердив пошту</button>
-            </div>
-        </div>
-
-        <!-- ЕТАП 3: Очікування модерації -->
-        <div id="stage-3" class="auth-stage">
-            <div class="auth-card">
-                <div class="success-icon">⏳</div>
-                <h2>Акаунт на модерації</h2>
-                <p>Ваш акаунт успішно створений, але очікує на підтвердження вчителем.</p>
-                <p class="help-text">Адміністратор перевірить ваші дані та надасть доступ найближчим часом.</p>
-                <button class="btn btn-primary btn-large" onclick="enterDashboard()">Перейти на Платформу</button>
+    <div id="step-1" class="auth-card bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md text-center">
+        <h1 class="text-3xl font-black text-blue-700 mb-6">VITAL-SCHOOL</h1>
+        <div class="space-y-4">
+            <input type="text" id="userName" placeholder="Ім'я та Прізвище" class="w-full border-2 p-3 rounded-xl outline-none focus:border-blue-400">
+            <input type="email" placeholder="Електронна пошта" class="w-full border-2 p-3 rounded-xl outline-none focus:border-blue-400">
+            <input type="password" placeholder="Пароль" class="w-full border-2 p-3 rounded-xl outline-none focus:border-blue-400">
+            <button onclick="nextStep(2)" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition">ЗАРЕЄСТРУВАТИСЯ</button>
+            <div class="flex flex-col gap-2 pt-2">
+                <button onclick="nextStep(2)" class="flex items-center justify-center gap-2 border p-2 rounded-xl text-sm font-medium hover:bg-gray-50">
+                    <img src="https://www.google.com/favicon.ico" class="w-4"> Увійти через Google
+                </button>
             </div>
         </div>
     </div>
 
-    <script src="js/app.js"></script>
+    <div id="step-2" class="hidden auth-card bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md text-center">
+        <div class="text-5xl mb-4">📧</div>
+        <h2 class="text-2xl font-bold text-blue-700 mb-4">Перевірте пошту</h2>
+        <p class="text-gray-600 mb-6">Ми надіслали лист для підтвердження. Натисніть на посилання у листі, щоб продовжити.</p>
+        <button onclick="nextStep(3)" class="w-full bg-green-500 text-white font-bold py-3 rounded-xl">Я ПІДТВЕРДИВ(ЛА)</button>
+    </div>
+
+    <div id="step-3" class="hidden auth-card bg-white p-8 rounded-3xl shadow-2xl w-full max-w-md text-center">
+        <div class="text-5xl mb-4">⏳</div>
+        <h2 class="text-2xl font-bold text-blue-700 mb-4">Заявка на розгляді</h2>
+        <p class="text-gray-600 mb-6">Ваш акаунт очікує на підтвердження вчителем. Доступ буде надано після перевірки даних адміністратором школи.</p>
+        <div class="flex items-center justify-center gap-2 text-blue-500 font-bold animate-pulse">
+            <span>Статус: Очікування...</span>
+        </div>
+        <button onclick="goToDashboard()" class="mt-6 w-full bg-blue-600 text-white font-bold py-3 rounded-xl">УВІЙТИ В КЛАС</button>
+    </div>
+
+    <script>
+        function nextStep(step) {
+            document.querySelectorAll('.auth-card').forEach(card => card.classList.add('hidden'));
+            document.getElementById('step-' + step).classList.remove('hidden');
+        }
+        function goToDashboard() {
+            const name = document.getElementById('userName').value || "Вчитель";
+            localStorage.setItem('schoolUserName', name);
+            window.location.href = 'dashboard.html';
+        }
+    </script>
 </body>
-  </html>
+</html>

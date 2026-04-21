@@ -2,96 +2,46 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VITAL-SCHOOL 3-А — Панель вчителя</title>
+    <title>VITAL-SCHOOL | Класна кімната</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
-    <div class="dashboard-wrapper">
-        <!-- БОКОВА ПАНЕЛЬ -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h2>📋 VITAL-SCHOOL</h2>
-                <p class="class-name">3-А Клас</p>
-            </div>
+<body class="bg-gray-50 font-sans text-gray-800">
 
-            <nav class="sidebar-nav">
-                <button class="nav-btn active" onclick="switchTab('students')">👥 Учні</button>
-                <button class="nav-btn" onclick="switchTab('journal')">📊 Журнал</button>
-                <button class="nav-btn" onclick="switchTab('announcements')">📢 Оголошення</button>
-            </nav>
+    <header class="bg-white border-b p-4 flex justify-between items-center px-8 shadow-sm">
+        <div class="text-2xl font-black text-blue-600 uppercase tracking-tight">VITAL-SCHOOL</div>
+        <div class="flex items-center gap-4">
+            <button onclick="window.print()" class="bg-blue-50 text-blue-600 px-4 py-2 rounded-lg font-bold text-xs hover:bg-blue-100">ЗБЕРЕГТИ ЖУРНАЛ</button>
+            <span id="userName" class="font-bold border-l pl-4 text-gray-600">Вчитель</span>
+        </div>
+    </header>
 
-            <div class="sidebar-footer">
-                <button class="btn btn-logout" onclick="logout()">🚪 Вихід</button>
-            </div>
+    <main class="max-w-[1600px] mx-auto p-6 grid grid-cols-12 gap-6">
+        
+        <aside class="col-span-3 bg-white p-6 rounded-3xl shadow-sm border border-gray-100 h-fit">
+            <h3 class="font-black text-gray-400 text-xs mb-4 tracking-widest uppercase">Електронний журнал</h3>
+            <div id="journal" class="space-y-4">
+                </div>
         </aside>
 
-        <!-- ОСНОВНОЙ КОНТЕНТ -->
-        <main class="main-content">
-            
-            <!-- ТАБ 1: УЧНІ (СІТКА З ФОТО) -->
-            <div id="tab-students" class="tab-content active">
-                <h1>👥 Клас 3-А (12 учнів)</h1>
-                <div class="students-grid" id="students-grid">
-                    <!-- Студенти будуть завантажені JS -->
-                </div>
-            </div>
+        <section class="col-span-6 grid grid-cols-3 gap-4" id="classGrid">
+            </section>
 
-            <!-- ТАБ 2: ЖУРНАЛ ОЦІНОК -->
-            <div id="tab-journal" class="tab-content">
-                <div class="journal-header">
-                    <h1>📊 Журнал відвідувань та оцінок</h1>
-                    <button class="btn btn-download" onclick="downloadJournalScreenshot()">⬇️ Завантажити журнал</button>
-                </div>
-                <div class="journal-wrapper">
-                    <table class="journal-table" id="journal-table">
-                        <thead>
-                            <tr>
-                                <th>№</th>
-                                <th>Ім'я учня</th>
-                                <th>19.04.2026</th>
-                                <th>20.04.2026</th>
-                                <th>21.04.2026</th>
-                            </tr>
-                        </thead>
-                        <tbody id="journal-body">
-                            <!-- Заповнюється JS -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- ТАБ 3: ОГОЛОШЕННЯ ВЧИТЕЛЯ -->
-            <div id="tab-announcements" class="tab-content">
-                <h1>📢 Оголошення вчителя</h1>
-                <div class="announcements-section">
-                    <div class="message-input-group">
-                        <textarea id="announcement-text" placeholder="Напишіть оголошення для класу..." rows="3"></textarea>
-                        <button class="btn btn-primary" onclick="sendAnnouncement()">Надіслати оголошення 📤</button>
-                    </div>
-                    <div class="announcements-list" id="announcements-list">
-                        <!-- Оголошення будуть тут -->
+        <aside class="col-span-3 flex flex-col gap-6">
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 flex flex-col h-[400px] overflow-hidden">
+                <div class="p-4 border-b bg-blue-50 font-bold text-blue-700 text-xs tracking-widest">НОВИНИ ВІД ВЧИТЕЛЯ</div>
+                <div id="newsFeed" class="flex-1 p-4 space-y-3 overflow-y-auto">
+                    <div class="bg-blue-50 p-3 rounded-2xl text-xs border-l-4 border-blue-500">
+                        <b>Вчитель:</b> Вітаю у нашому класі! Починаємо урок.
                     </div>
                 </div>
+                <div class="p-3 border-t">
+                    <input id="newsInput" type="text" placeholder="Написати новину..." class="w-full p-2 bg-gray-50 rounded-xl outline-none text-xs">
+                </div>
             </div>
+        </aside>
+    </main>
 
-        </main>
-    </div>
-
-    <!-- МОДАЛЬНЕ ВІКНО ДЛЯ ГОЛОСОВОЇ ВІДПОВІДІ -->
-    <div id="voice-modal" class="modal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeVoiceModal()">✕</button>
-            <div class="student-avatar-modal">
-                <img id="modal-student-photo" src="" alt="">
-            </div>
-            <h2 id="modal-student-name"></h2>
-            <p id="voice-response" class="voice-text">🎤 Прослуховування...</p>
-            <div class="voice-wave"></div>
-        </div>
-    </div>
-
-    <script src="https://html2canvas.herokuapp.com/dist/html2canvas.min.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
